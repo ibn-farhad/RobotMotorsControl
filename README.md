@@ -63,3 +63,59 @@ Install dependency:
 
 ```bash
 pip install pyserial
+```
+
+---
+## Report
+
+
+Created repo on Git
+```bash
+git pull
+
+touch README.md
+touch motors_control.py
+touch git .gitignore
+code .
+```
+
+Made changes on the files
+Added required lines to the gitignore
+
+```bash
+git status
+
+git add --all
+
+git commit -m ""
+
+git push -u origin main
+```
+
+Generated token to push. Wrote it while asked
+
+```bash
+git checkout -b keyboard_control
+
+```
+
+Made changes on the files
+
+```bash
+git add --all
+git commint -m ""
+
+git push --set-upstream origin keyboard_control
+```
+Made a pull - request, confirmed it.
+
+Then 
+```bash
+git checkout main
+
+git pull
+```
+Made this changes!!!
+
+## Impressions
+Seeing the possibilities and conveniences of this technology, I regret not using it to this day! In my future projects, I will always use Git.
