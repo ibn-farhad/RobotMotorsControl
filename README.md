@@ -1,36 +1,65 @@
 # Motor Control via Serial (Python)
 
-This project provides a simple Python script to control a robot’s motors by sending commands over a serial connection (UART/USB).
+This project provides a simple Python script to control a robot’s motors
+by sending commands over a serial connection (UART / USB).
 
-The script is typically used to control motors connected to a microcontroller such as **Arduino** or **ESP32**.
-
----
-
-## Overview
-
-The Python script:
-- Opens a serial connection
-- Sends motor speed commands as text
-- Controls left and right motors independently
-
-Communication is done using a simple ASCII protocol.
+It is intended for quick testing and manual control of motors connected
+to a microcontroller such as **Arduino** or **ESP32**.
 
 ---
 
-## Serial Command Format
+## Features
 
-Each motor command is sent as a single line:
+- Serial communication using `pyserial`
+- Independent left and right motor control
+- Human-readable command protocol
+- **Keyboard-based manual control**
+- Safe shutdown (motors stop on exit)
+
+---
+
+## Serial Command Protocol
+
+Commands are sent as text lines:
 
 M <left_speed> <right_speed>
 
 
 Where:
-- `left_speed`  is an integer from `-255` to `255`
-- `right_speed` is an integer from `-255` to `255`
+- `left_speed`  ∈ `[-255, 255]`
+- `right_speed` ∈ `[-255, 255]`
 
 ### Examples
 
 M 150 150 # Move forward
-M 150 -150 # Rotate in place
+M -150 -150 # Move backward
+M -150 150 # Rotate left
+M 150 -150 # Rotate right
 M 0 0 # Stop
 
+---
+
+## Keyboard Controls
+
+When the script is running, use the following keys:
+
+| Key | Action |
+|---|---|
+| `w` | Move forward |
+| `s` | Move backward |
+| `a` | Rotate left |
+| `d` | Rotate right |
+| `x` | Stop motors |
+| `q` | Quit (stop motors and exit) |
+
+---
+
+## Requirements
+
+- Python 3
+- `pyserial`
+
+Install dependency:
+
+```bash
+pip install pyserial
