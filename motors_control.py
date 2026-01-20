@@ -1,52 +1,68 @@
-#!/usr/bin/env python3
-
 import serial
 import time
 
 
-PORT = "/dev/ttyUSB0"   
+# CONFIGURATION
+
+PORT = "/dev/ttyUSB0"   # Linux
 BAUDRATE = 115200
 TIMEOUT = 1
+SPEED = 150             # Default motor speed
 
 
-ser = serial.Serial(
-    port=PORT,
-    baudrate=BAUDRATE,
-    timeout=TIMEOUT
-)
 
-time.sleep(2)  
+# SERIAL CONNECTION
+
+
+ser = serial.Serial(PORT, BAUDRATE, timeout=TIMEOUT)
+time.sleep(2)
 
 print("Serial connection established")
 
 
+# MOTOR COMMAND FUNCTION
+
 def send_motor_command(left, right):
-    """
-    Send motor speed command.
-    left, right: int [-255, 255]
-    """
     command = f"M {left} {right}\n"
     ser.write(command.encode("utf-8"))
     print("Sent:", command.strip())
 
 
+# KEYBOARD CONTROL LOOP
+
+print("""
+Control keys:
+  w - forward
+  s - backward
+  a - left
+  d - right
+  x - stop
+  q - quit
+""")
 
 try:
-    # Forward
-    send_motor_command(150, 150)
-    time.sleep(2)
+    while True:
+        key = input("Command: ").strip().lower()
 
-    # Rotate right
-    send_motor_command(150, -150)
-    time.sleep(2)
-
-    # Stop
-    send_motor_command(0, 0)
+        if key == "w":
+            send_motor_command(SPEED, SPEED)
+        elif key == "s":
+            send_motor_command(-SPEED, -SPEED)
+        elif key == "a":
+            send_motor_command(-SPEED, SPEED)
+        elif key == "d":
+            send_motor_command(SPEED, -SPEED)
+        elif key == "x":
+            send_motor_command(0, 0)
+        elif key == "q":
+            break
+        else:
+            print("Unknown command")
 
 except KeyboardInterrupt:
-    print("Interrupted")
+    pass
 
 finally:
     send_motor_command(0, 0)
     ser.close()
-    print("Serial connection closed")
+    print("Motors stopped. Serial closed.")
